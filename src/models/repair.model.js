@@ -18,6 +18,11 @@ const Repair = db.define("repairs", {
   },
 
   status: {
+    type: DataTypes.ENUM("pending", "completed", "cancelled"),
+    allowNull: false,
+    defaultValue: "pending",
+  },
+  state: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: true,

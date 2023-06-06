@@ -20,6 +20,12 @@ const Users = db.define("users", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "pending",
+  },
   status: {
     type: DataTypes.BOOLEAN,
     allowNull: false,

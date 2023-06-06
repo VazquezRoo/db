@@ -23,7 +23,7 @@ exports.updateUser = async (req, res) => {
     // 1. TRAERNOS EL USUARIO QUE IBAMOS A ACTUALIZAR
     const { id } = req.params;
     // 2. NOS TRAJIMOS DE EL BODY LA INFORMACION QUE VAMOS A ACTUALIZAR
-    const { name, email } = req.body;
+    const { name, password, role } = req.body;
     // 3. BUSCAR EL USUARIO QUE VAMOS A ACTUALIZAR
     const user = await User.findOne({
       where: {
@@ -39,7 +39,7 @@ exports.updateUser = async (req, res) => {
       });
     }
     // 5. PROCEDO A ACTUALIZARLO
-    await user.update({ name, email });
+    await user.update({ name, password, role });
 
     // 6. ENVIO LA CONFIRMACIÓN DE EXITO AL CLIENTE
     res.status(200).json({
@@ -50,18 +50,20 @@ exports.updateUser = async (req, res) => {
     return res.status(500).json({
       status: "fail",
       message: "Something went very wrong!",
+      error,
     });
   }
 };
 
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     const user = await User.create({
       name,
       email,
       password,
+      role,
     });
 
     return res.status(201).json({

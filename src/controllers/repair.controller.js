@@ -5,14 +5,14 @@ exports.findProducts = async (req, res) => {
 
   const repairs = await Repair.findAll({
     where: {
-      status: true,
+      state: true,
     },
   });
 
   return res.json({
     requestTime: time,
     results: repairs.length,
-    status: "Pending",
+    status: "succes",
     message: "Products found",
     repairs,
   });
@@ -23,12 +23,11 @@ exports.updateProduct = async (req, res) => {
     // 1. TRAERNOS EL PRODUCTO QUE IBAMOS A ACTUALIZAR
     const { id } = req.params;
     // 2. NOS TRAJIMOS DE EL BODY LA INFORMACION QUE VAMOS A ACTUALIZAR
-    const { userid } = req.body;
     // 3. BUSCAR EL PRODUCTO QUE VAMOS A ACTUALIZAR
     const product = await Repair.findOne({
       where: {
         id,
-        status: true,
+        state: true,
       },
     });
     // 4. VALIDAR SI EL PRODUCTO EXISTE
@@ -39,7 +38,7 @@ exports.updateProduct = async (req, res) => {
       });
     }
     // 5. PROCEDO A ACTUALIZARLO
-    await product.update({ userid });
+    await product.update({ status: "completed" });
 
     // 6. ENVIO LA CONFIRMACIÓN DE EXITO AL CLIENTE
     res.status(200).json({
@@ -90,7 +89,7 @@ exports.findProduct = async (req, res) => {
     const product = await Repair.findOne({
       where: {
         id,
-        status: true,
+        state: true,
       },
     });
 
@@ -123,7 +122,7 @@ exports.deleteProduct = async (req, res) => {
     //! buscar el producto
     const product = await Repair.findOne({
       where: {
-        status: true,
+        state: true,
         id,
       },
     });
@@ -135,7 +134,7 @@ exports.deleteProduct = async (req, res) => {
       });
     }
     //! actualizar el producto encontrado y actualizar el status a false
-    await product.update({ status: false }); //eliminacion logica
+    await product.update({ state: false }); //eliminacion logica
     //await product.destroy() //eliminacion fisica
     //! enviar respuesta al cliente
     return res.status(200).json({

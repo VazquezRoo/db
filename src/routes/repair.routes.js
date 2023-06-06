@@ -2,8 +2,6 @@ const express = require("express");
 
 //controllers
 const repairController = require("../controllers/repair.controller");
-//middlewares
-// const validationMiddleware = require("./../middlewares/validation.middleware");
 
 const router = express.Router();
 
